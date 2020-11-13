@@ -1,3 +1,7 @@
+
+https://github.com/tongzh/pact-jvm-minimum-demo
+
+
 image: maven:latest
 
 variables:
