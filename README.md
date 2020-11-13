@@ -1,7 +1,17 @@
+image: maven:latest
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+cache:
+  paths:
+    - .m2/repository/
+    - target/
+
+
 stages:
   - build
-  - test
-  - deploy
+  - publish
 
 variables:
   
@@ -10,24 +20,10 @@ variables:
 build:
   stage: build
   script:
-    - echo "Building .."
+    - cd consumer && mvn clean install -DskipTests=false
 
 
-test:
-  stage: test
-  script: # TODO: write a test script
-    - echo "Testing  .."
-  dependencies:
-    - build
 
-deploy_dev:
-  stage: deploy
-  environment:
-    name: Dev
-  script:
-
-    - echo "test" > pact.json
-   
   artifacts:
     paths:
-    -  pact.json 
+    -  consumer/target/pacts/*.json 
